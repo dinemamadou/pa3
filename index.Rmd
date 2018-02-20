@@ -1,0 +1,69 @@
+---
+title: "index.Rmd"
+author: "Dine Mamadou"
+date: "2/19/2018"
+output: 
+  html_document:
+    highlight: kate
+    keep_md: yes
+    theme: united
+---
+#General Observations
+The languageR data sets are pretty messy and the hardest thing about them was the length of long data. That is the reaon why I used `slice()' to reduce it to the most essential parts. Also, not all variables correlate, so it required several trials to get to find the few that do. Finally, instead of a regression line as asked in the directions for this homework, I provided a line of best fit. It's certainly the case that these two lines don't exactly do the same think. If this is true, what is the difference between them?
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(languageR)
+#this shouldn't show.
+library(tidyverse)
+library(languageR)
+```
+
+#Tiding the data
+
+###Using 'gather( )'
+
+``` {r}
+beginningReaders %>%
+  select(PC1, PC2, PC3, PC4) %>%
+  gather(., key = PC, val = Measurements) %>%
+  ggplot(., aes(x = PC, y = Measurements), color = PC) +
+    geom_boxplot()
+
+```
+
+
+###Using 'separate( )'
+
+```{r}
+beginningReaders %>%
+  select(., PC2) %>%
+  slice(., 1:20) %>%
+  separate(., PC2, into = c('Subcondition', 'Subcondition')) 
+```
+#Some descriptive data & fitting a model
+```{r}
+model <- lm(formula = PC1 ~ PC3, data = beginningReaders)
+  summary(model)
+  coefficients(model)
+
+```
+#Fitting a regression line to the data 
+```{r}
+
+beginningReaders %>%
+  select(., PC1, PC3) %>%
+  ggplot(., aes(x = PC1, y = PC3)) +
+  geom_point() +
+   geom_smooth()
+```
+
+#Final boxplot
+
+```{r}
+beginningReaders %>%
+  select(., Word, PC1) %>%
+  slice(., 1:200) %>%
+  ggplot(., aes(x = Word, y = PC1, color = Word)) +
+  geom_boxplot()
+```
