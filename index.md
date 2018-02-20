@@ -1,7 +1,7 @@
 ---
 title: "index.Rmd"
 author: "Dine Mamadou"
-date: "2/19/2018"
+date: "2/20/2018"
 output: 
   html_document:
     highlight: kate
